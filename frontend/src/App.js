@@ -1,4 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+import React, { useEffect, useLayoutEffect } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -13,15 +19,31 @@ import StudentDetail from "./Components/StudentDetail";
 import EditStudent from "./Components/EditStudent";
 import AboutUs from "./Programs/AboutUs";
 import ContactUs from "./Programs/ContactUs";
-import Hifdh from "./Programs/Hifdh";
+import Udenadslaering from "./Programs/Udenadslaering";
 import HomePage from "./Programs/HomePage";
-import Ijaaza from "./Programs/Ijaaza";
+import Ijazah from "./Programs/Ijazah";
 import Tajweed from "./Programs/Tajweed";
 import Teachers from "./Programs/Teachers";
+import Elever from "./Programs/Elever";
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/sidebar" element={<Sidebar />} />
@@ -32,13 +54,14 @@ function App() {
         <Route path="/student_detail/:id" element={<StudentDetail />} />
         <Route path="/sidebar/add_course" element={<AddCourse />} />
         <Route path="/sidebar/add_student" element={<AddStudent />} />
-        <Route path="/" exact component={HomePage} />
-        <Route path="/programs/about-us" component={AboutUs} />
-        <Route path="/programs/contact-us" component={ContactUs} />
-        <Route path="/programs/hifdh" component={Hifdh} />
-        <Route path="/programs/ijaaza" component={Ijaaza} />
-        <Route path="/programs/tajweed" component={Tajweed} />
-        <Route path="/programs/teachers" component={Teachers} />
+        <Route path="/" exact element={<HomePage />} />
+        <Route path="/programs/about-us" element={<AboutUs />} />
+        <Route path="/programs/ContactUs" element={<ContactUs />} />
+        <Route path="/programs/Udenadslaering" element={<Udenadslaering />} />
+        <Route path="/programs/Ijazah" element={<Ijazah />} />
+        <Route path="/programs/tajweed" element={<Tajweed />} />
+        <Route path="/programs/teachers" element={<Teachers />} />
+        <Route path="/programs/Elever" element={<Elever />} />
       </Routes>
     </Router>
   );
