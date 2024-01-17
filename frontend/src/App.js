@@ -42,8 +42,8 @@ function App() {
         <Route path="/" exact component={HomePage} />
         <Route path="/programs/about-us" component={AboutUs} />
         <Route path="/programs/contact-us" component={ContactUs} />
-        <Route path="/programs/hifdh" component={Hifdh} />
-        <Route path="/programs/ijaaza" component={Ijaaza} />
+        <Route path="/programs/udenadslaering" component={Udenadslaering} />
+        <Route path="/programs/ijazah" component={Ijazah} />
         <Route path="/programs/tajweed" component={Tajweed} />
         <Route path="/programs/teachers" component={Teachers} />
       </Routes>
