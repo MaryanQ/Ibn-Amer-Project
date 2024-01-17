@@ -5,7 +5,9 @@ import axios from "axios";
 
 const Sidebar = () => {
   const navigate = useNavigate();
+
   axios.defaults.withCredentials = true;
+
   const handleLogout = () => {
     axios.get("http://localhost:3300/logout").then((result) => {
       if (result.data.Status) {
@@ -14,6 +16,12 @@ const Sidebar = () => {
       }
     });
   };
+
+  const handleLinkClick = (event, to) => {
+    event.preventDefault();
+    navigate(to);
+  };
+
   return (
     <div className="container-fluid">
       <div className="row flex-nowrap">
@@ -35,6 +43,7 @@ const Sidebar = () => {
                 <Link
                   to="/sidebar"
                   className="nav-link text-white px-0 align-middle"
+                  onClick={(e) => handleLinkClick(e, "/sidebar/students")}
                 >
                   <i className="fs-4 bi-speedometer2 ms-2"></i>
                   <span className="ms-2 d-none d-sm-inline">Sidebar</span>
@@ -42,7 +51,7 @@ const Sidebar = () => {
               </li>
               <li className="w-100">
                 <Link
-                  to="/sidebar/students"
+                  to="students"
                   className="nav-link px-0 align-middle text-white"
                 >
                   <i className="fs-4 bi-people ms-2"></i>
@@ -68,18 +77,15 @@ const Sidebar = () => {
                   <i className="fs-4 bi-person ms-2"></i>
                   <span className="ms-2 d-none d-sm-inline">Profile</span>
                 </Link>
-
-                <li className="w-100">
-                  <Link
-                    to="/sidebar/edit_student/:id"
-                    className="nav-link px-0 align-middle text-white"
-                  >
-                    <i className="fs-4 bi-pencil ms-2"></i>
-                    <span className="ms-2 d-none d-sm-inline">
-                      Edit Student
-                    </span>
-                  </Link>
-                </li>
+              </li>
+              <li className="w-100">
+                <Link
+                  to="/sidebar/edit_student/:id"
+                  className="nav-link px-0 align-middle text-white"
+                >
+                  <i className="fs-4 bi-pencil ms-2"></i>
+                  <span className="ms-2 d-none d-sm-inline">Edit Student</span>
+                </Link>
               </li>
               <li className="w-100" onClick={handleLogout}>
                 <Link className="nav-link px-0 align-middle text-white">
@@ -94,7 +100,10 @@ const Sidebar = () => {
           <div className="p-2 d-flex justify-content-center shadow">
             <h4>Student Management</h4>
           </div>
-          <Outlet />
+          <div className="p-2">
+            {/* Content inside the main area */}
+            <Outlet />
+          </div>
         </div>
       </div>
     </div>

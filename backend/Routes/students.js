@@ -17,7 +17,6 @@ studentsRouter.get("/", (req, res) => {
     }
   });
 });
-
 studentsRouter.get("/:id", (req, res) => {
   const id = req.params.id;
   const queryString = /*sql*/ `
@@ -29,8 +28,15 @@ studentsRouter.get("/:id", (req, res) => {
   dbConfig.query(queryString, values, (error, results) => {
     if (error) {
       console.log(error);
+      res.status(500).json({
+        error: "An error occurred while fetching student details",
+      });
     } else {
-      res.json(results[0]);
+      if (results.length > 0) {
+        res.json(results[0]); // Sending the student details
+      } else {
+        res.status(404).json({ message: "Student not found" });
+      }
     }
   });
 });

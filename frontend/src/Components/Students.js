@@ -1,12 +1,9 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-// ... (previous imports and component setup)
+import axios from "axios";
 
 const Students = () => {
   const [students, setStudents] = useState([]);
-  const [studentHomework, setStudentHomework] = useState(null);
 
   useEffect(() => {
     // Fetch the list of students
@@ -39,24 +36,6 @@ const Students = () => {
       });
   };
 
-  const handleClick = async (id) => {
-    try {
-      // Fetch additional student homework when a student is clicked
-      const response = await axios.get(
-        `http://localhost:3300/students/${id}/homework`
-      );
-
-      if (response.data.Status) {
-        setStudentHomework(response.data.Result);
-      } else {
-        alert(response.data.Error);
-      }
-    } catch (error) {
-      console.error(error);
-      alert("An error occurred while fetching homework data.");
-    }
-  };
-
   return (
     <div className="px-5 mt-3">
       <div className="d-flex justify-content-center">
@@ -78,8 +57,10 @@ const Students = () => {
           </thead>
           <tbody>
             {students.map((e) => (
-              <tr key={e.id} onClick={() => handleClick(e.id)}>
-                <td>{e.firstname}</td>
+              <tr key={e.id}>
+                <td>
+                  <Link to={`/students/${e.id}`}>{e.firstname}</Link>
+                </td>
                 <td>{e.lastname}</td>
                 <td>{e.email}</td>
                 <td>{e.gender}</td>
@@ -103,17 +84,6 @@ const Students = () => {
           </tbody>
         </table>
       </div>
-      {/* Display additional student homework info */}
-      {studentHomework && (
-        <div>
-          <h4>Additional Student Homework Info</h4>
-          {/* Display homework info based on the structure of your data */}
-          <p>Assignment: {studentHomework.assignment_name}</p>
-          <p>Destription: {studentHomework.description}</p>
-          <p>Due Date: {studentHomework.due_date}</p>
-          {/* Add more details as needed */}
-        </div>
-      )}
     </div>
   );
 };

@@ -1,91 +1,171 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-const EditStudent = ({ match }) => {
-  const studentId = match.params.id;
-  const [student, setStudent] = useState({});
-  const [formData, setFormData] = useState({
+const EditStudent = () => {
+  const { id } = useParams(); // Add this line to get the 'id' from URL parameters
+
+  const [student, setStudent] = useState({
     firstname: "",
     lastname: "",
     email: "",
     gender: "",
     number: "",
-    // Add other fields as needed
   });
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    // Fetch student data by ID
     axios
-      .get(`http://localhost:3300/students/${studentId}`)
-      .then((response) => {
-        if (response.data.Status) {
-          setStudent(response.data.Result);
-          setFormData({
-            firstname: response.data.Result.firstname,
-            lastname: response.data.Result.lastname,
-            email: response.data.Result.email,
-            gender: response.data.Result.gender,
-            number: response.data.Result.number,
-            // Update with other fields as needed
-          });
+      .get("http://localhost:3300/students")
+      .then((result) => {
+        if (result.data.Status) {
+          setStudent(result.data.Result);
         } else {
-          alert(response.data.Error);
+          alert(result.data.Error);
         }
       })
-      .catch((error) => console.error(error));
-  }, [studentId]);
+      .catch((err) => console.log(err));
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+    axios
+      .get("http://localhost:3300/students/" + id)
+      .then((result) => {
+        setStudent((prevStudent) => ({
+          ...prevStudent,
+          firstname: result.data.Result[0].name,
+          lastname: result.data.Result[0].lastname,
+          email: result.data.Result[0].email,
+          gender: result.data.Result[0].gender,
+          number: result.data.Result[0].number,
+          student_id: result.data.Result[0].student_id,
+        }));
+      })
+      .catch((err) => console.log(err));
+  }, [id, student]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add logic to update student data on the server
-    // Example: axios.put(`http://localhost:3300/students/${studentId}`, formData)
+    axios
+      .put("http://localhost:3300/edit_student/" + id, student)
+      .then((result) => {
+        if (result.data.Status) {
+          navigate("/sidebar/students");
+        } else {
+          alert(result.data.Error);
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
-    <div className="px-5 mt-3">
-      <div className="d-flex justify-content-center">
-        <h2>Edit Student Information</h2>
+    <div className="d-flex justify-content-center align-items-center mt-3">
+      <div className="p-3 rounded w-50 border">
+        <h3 className="text-center">Edit Student</h3>
+        <form className="row g-1" onSubmit={handleSubmit}>
+          <div className="col-12">
+            <label for="inputName" className="form-label">
+              firstname
+            </label>
+            <input
+              type="text"
+              className="form-control rounded-0"
+              id="inputName"
+              placeholder="Enter firstname"
+              value={student.name}
+              onChange={(e) =>
+                setStudent({ ...student, firstname: e.target.value })
+              }
+            />
+          </div>
+          <div className="col-12">
+            <label for="inputEmail4" className="form-label">
+              Lastname
+            </label>
+            <input
+              type="Lastname"
+              className="form-control rounded-0"
+              id="inputLastname"
+              placeholder="Enter lastname"
+              autoComplete="off"
+              value={student.lastname}
+              onChange={(e) =>
+                setStudent({ ...student, lastname: e.target.value })
+              }
+            />
+          </div>
+          <div className="col-12">
+            <label for="inputSalary" className="form-label">
+              Email
+            </label>
+            <input
+              type="text"
+              className="form-control rounded-0"
+              id="imputEmail"
+              placeholder="Enter Email"
+              autoComplete="off"
+              value={student.email}
+              onChange={(e) =>
+                setStudent({ ...student, email: e.target.value })
+              }
+            />
+          </div>
+          <div className="col-12">
+            <label for="inputGender" className="form-label">
+              gender
+            </label>
+            <input
+              type="text"
+              className="form-control rounded-0"
+              id="inputGender"
+              placeholder="Enter gender"
+              autoComplete="off"
+              value={student.gender}
+              onChange={(e) =>
+                setStudent({ ...student, gender: e.target.value })
+              }
+            />
+          </div>
+          <div className="col-12">
+            <label for="inputNumber" className="form-label">
+              Number
+            </label>
+            <input
+              type="number"
+              className="form-control rounded-0"
+              id="inputNumber"
+              placeholder="Enter number"
+              autoComplete="off"
+              value={student.number}
+              onChange={(e) =>
+                setStudent({ ...student, gender: e.target.value })
+              }
+            />
+          </div>
+          <div className="col-12">
+            <label for="student" className="form-label">
+              Student
+            </label>
+            <select
+              name="student"
+              id="student"
+              className="form-select"
+              onChange={(e) =>
+                setStudent({ ...student, student_id: e.target.value })
+              }
+            >
+              {student.map((c) => {
+                return <option value={c.id}>{c.name}</option>;
+              })}
+            </select>
+          </div>
+
+          <div className="col-12">
+            <button type="submit" className="btn btn-primary w-100">
+              Edit Student
+            </button>
+          </div>
+        </form>
       </div>
-      <form onSubmit={handleSubmit}>
-        {/* Include form fields for modifying student information */}
-        <div className="mb-3">
-          <label htmlFor="firstname" className="form-label">
-            First Name
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="firstname"
-            name="firstname"
-            value={formData.firstname}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="lastname" className="form-label">
-            Last Name
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="lastname"
-            name="lastname"
-            value={formData.lastname}
-            onChange={handleChange}
-          />
-        </div>
-        {/* Add other form fields for email, gender, number, etc. */}
-        <button type="submit" className="btn btn-primary">
-          Save Changes
-        </button>
-      </form>
     </div>
   );
 };
