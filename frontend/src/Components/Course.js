@@ -7,7 +7,7 @@ const Course = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3300/courses")
+      .get("http://localhost:6500/courses")
       .then((result) => {
         if (result.data.Status) {
           setCourses(result.data.Result);

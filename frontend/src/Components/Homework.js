@@ -20,12 +20,12 @@ const Homework = () => {
   const fetchData = async () => {
     try {
       const studentsResponse = await axios.get(
-        "http://localhost:3300/students"
+        "http://localhost:6500/students"
       );
       setStudents(studentsResponse.data);
 
       const homeworkResponse = await axios.get(
-        "http://localhost:3300/homework"
+        "http://localhost:6500/homework"
       );
       setStudentHomework(homeworkResponse.data);
     } catch (error) {
@@ -46,12 +46,12 @@ const Homework = () => {
       };
 
       await axios.post(
-        `http://localhost:3300/homework/${selectedStudentId}`,
+        `http://localhost:6500/homework/${selectedStudentId}`,
         dataToInsert
       );
       fetchData();
     } catch (error) {
-      console.error("Error assigning homework:", error.response);
+      console.error("Error assigning homework:", error);
     }
   };
 

@@ -1,10 +1,6 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
-import React, { useEffect, useLayoutEffect } from "react";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Modal from "react-modal";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -24,12 +20,11 @@ import HomePage from "./Programs/HomePage";
 import Ijazah from "./Programs/Ijazah";
 import Tajweed from "./Programs/Tajweed";
 import Teachers from "./Programs/Teachers";
-
-Modal.setAppElement(document.body);
+import Homework from "./Components/Homework";
+import MyCalendar from "./Components/MyCalender";
 function App() {
   return (
     <Router>
-      <ScrollToTop />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/sidebar" element={<Sidebar />} />
@@ -39,13 +34,16 @@ function App() {
         <Route path="/sidebar/profile" element={<Profile />} />
         <Route path="/sidebar/add_course" element={<AddCourse />} />
         <Route path="/sidebar/add_student" element={<AddStudent />} />
-        <Route path="/" exact component={HomePage} />
-        <Route path="/programs/about-us" component={AboutUs} />
-        <Route path="/programs/contact-us" component={ContactUs} />
-        <Route path="/programs/udenadslaering" component={Udenadslaering} />
-        <Route path="/programs/ijazah" component={Ijazah} />
-        <Route path="/programs/tajweed" component={Tajweed} />
-        <Route path="/programs/teachers" component={Teachers} />
+        <Route path="/students/:id" element={<StudentDetail />} />
+        <Route path="/homework" element={<Homework />} />
+        <Route path="/sidebar/mycalendar" element={<MyCalendar />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/programs/about-us" element={<AboutUs />} />
+        <Route path="/programs/contact-us" element={<ContactUs />} />
+        <Route path="/programs/udenadslaering" element={<Udenadslaering />} />
+        <Route path="/programs/ijazah" element={<Ijazah />} />
+        <Route path="/programs/tajweed" element={<Tajweed />} />
+        <Route path="/programs/teachers" element={<Teachers />} />
       </Routes>
     </Router>
   );

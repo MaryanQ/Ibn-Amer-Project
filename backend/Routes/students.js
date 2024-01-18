@@ -52,6 +52,7 @@ studentsRouter.post("/", (req, res) => {
       error: "Invalid 'number' format. Please provide a valid number.",
     });
   }
+
   // Opret forbindelse til databasen og udfør indsættelsen af data
 
   const insertQuery =

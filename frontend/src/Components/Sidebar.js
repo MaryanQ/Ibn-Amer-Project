@@ -2,6 +2,7 @@ import React from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import axios from "axios";
+import MyCalendar from "./MyCalender";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -9,10 +10,9 @@ const Sidebar = () => {
   axios.defaults.withCredentials = true;
 
   const handleLogout = () => {
-    axios.get("http://localhost:3300/logout").then((result) => {
-      if (result.data.Status) {
-        localStorage.removeItem("valid");
-        navigate("/");
+    axios.get("http://localhost:6500/logout").then((result) => {
+      if (result.data.status) {
+        navigate("login");
       }
     });
   };
@@ -55,9 +55,7 @@ const Sidebar = () => {
                   className="nav-link px-0 align-middle text-white"
                 >
                   <i className="fs-4 bi-people ms-2"></i>
-                  <span className="ms-2 d-none d-sm-inline">
-                    Manage students
-                  </span>
+                  <span className="ms-2 d-none d-sm-inline">Students</span>
                 </Link>
               </li>
               <li className="w-100">
@@ -98,11 +96,12 @@ const Sidebar = () => {
         </div>
         <div className="col p-0 m-0">
           <div className="p-2 d-flex justify-content-center shadow">
-            <h4>Student Management</h4>
+            <h4>Ibn Caamir Institute</h4>
           </div>
           <div className="p-2">
             {/* Content inside the main area */}
             <Outlet />
+            <MyCalendar />
           </div>
         </div>
       </div>

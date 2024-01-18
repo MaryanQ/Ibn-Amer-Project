@@ -7,7 +7,7 @@ import reviewer2 from "../Images/reviewer2.png";
 import reviewer3 from "../Images/reviewer3.jpg";
 import teacher from "../Images/teacher.png";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import "./style.css";
+import "./styles.css";
 import "./kurser.css";
 
 const teachers = () => {

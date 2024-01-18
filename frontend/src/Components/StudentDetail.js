@@ -19,30 +19,21 @@ const StudentDetail = () => {
   const fetchData = useCallback(async () => {
     try {
       const homeworkRes = await axios.get(
-        `http://localhost:3300/homework/${id}`
+        `http://localhost:6500/homework/${id}`
       );
       const attendanceRes = await axios.get(
-        `http://localhost:3300/attendance/${id}`
+        `http://localhost:6500/attendance/${id}`
       );
       const quranProgressRes = await axios.get(
-        `http://localhost:3300/QuranProgress/${id}`
+        `http://localhost:6500/QuranProgress/${id}`
       );
       console.log("Quran Progress API Response:", quranProgressRes.data);
 
-      if (
-        typeof homeworkRes.data === "object" &&
-        homeworkRes.data !== null &&
-        !Array.isArray(homeworkRes.data)
-      ) {
-        setHomework([homeworkRes.data]); // Wrap the single assignment in an array
-      } else if (Array.isArray(homeworkRes.data)) {
-        setHomework(homeworkRes.data);
-      } else {
+      if (!Array.isArray(homeworkRes.data)) {
         console.error("Invalid homework data format:", homeworkRes.data);
-        // Log the actual structure of homeworkRes.data
-        console.log("Homework data:", homeworkRes.data);
-        // If the data is not an array or object, handle it accordingly
         setHomework([]);
+      } else {
+        setHomework(homeworkRes.data);
       }
 
       if (Array.isArray(attendanceRes.data)) {

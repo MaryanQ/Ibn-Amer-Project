@@ -17,7 +17,7 @@ const EditStudent = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3300/students")
+      .get("http://localhost:6500/students")
       .then((result) => {
         if (result.data.Status) {
           setStudent(result.data.Result);
@@ -28,7 +28,7 @@ const EditStudent = () => {
       .catch((err) => console.log(err));
 
     axios
-      .get("http://localhost:3300/students/" + id)
+      .get("http://localhost:6500/students/" + id)
       .then((result) => {
         setStudent((prevStudent) => ({
           ...prevStudent,
@@ -46,7 +46,7 @@ const EditStudent = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .put("http://localhost:3300/edit_student/" + id, student)
+      .put("http://localhost:6500/edit_student/" + id, student)
       .then((result) => {
         if (result.data.Status) {
           navigate("/sidebar/students");

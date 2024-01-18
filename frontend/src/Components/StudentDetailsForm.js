@@ -24,7 +24,7 @@ const StudentDetailsForm = ({ studentId, onFormSubmit }) => {
 
     try {
       await axios.post(
-        `http://localhost:3300/homework/${studentId}`,
+        `http://localhost:6500/homework/${studentId}`,
         homeworkData
       );
       onFormSubmit(); // Fetch data again after form submission
@@ -38,7 +38,7 @@ const StudentDetailsForm = ({ studentId, onFormSubmit }) => {
 
     try {
       await axios.post(
-        `http://localhost:3300/attendance/${studentId}`,
+        `http://localhost:6500/attendance/${studentId}`,
         attendanceData
       );
       onFormSubmit(); // Fetch data again after form submission
@@ -52,7 +52,7 @@ const StudentDetailsForm = ({ studentId, onFormSubmit }) => {
 
     try {
       await axios.post(
-        `http://localhost:3300/QuranProgress/${studentId}`,
+        `http://localhost:6500/QuranProgress/${studentId}`,
         quranProgressData
       );
       onFormSubmit(); // Fetch data again after form submission

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import myVideo from "../Images/IBN AMER INSTITUTE (2).mp4";
 import logo from "../Images/logo.png";
 import course1 from "../Images/course1.png";
-import "./style.css";
+import "./styles.css";
 
 const HomePage = () => {
   const [isMenuVisible, setMenuVisible] = useState(false);

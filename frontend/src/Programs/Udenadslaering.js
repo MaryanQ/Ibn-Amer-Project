@@ -5,7 +5,7 @@ import forløb1 from "../Images/forløb1.jpg";
 import forløb2 from "../Images/forløb2.jpg";
 import forløb3 from "../Images/forløb3.jpg";
 import background from "../Images/Background.jpg";
-import "./style.css";
+import "./styles.css";
 import "./kurser.css";
 
 const Udenadslæring = () => {

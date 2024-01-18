@@ -21,37 +21,12 @@ homeworkRouter.get("/", (req, res) => {
   });
 });
 
-// GET request to fetch a homework assignment by ID
-homeworkRouter.get("/:homework_id", (req, res) => {
-  const homeworkId = req.params.homework_id;
-
-  const queryString = `
-    SELECT * FROM Homework WHERE homework_id = ?
-  `;
-
-  dbConfig.query(queryString, [homeworkId], (error, results) => {
-    if (error) {
-      console.error(error);
-      res.status(500).json({
-        error: "An error occurred while fetching homework assignment",
-      });
-    } else {
-      if (results.length > 0) {
-        res.json(results[0]); // Sending the homework assignment
-      } else {
-        res.status(404).json({ message: "Homework assignment not found" });
-      }
-    }
-  });
-});
-
+// POST request to assign homework
 homeworkRouter.post("/:id", (req, res) => {
-  const studentsId = req.params.id; // Use id instead of studentsId
+  const studentsId = req.params.id;
 
-  // Extract assignment details from request body
   const { assignment_name, description, due_date } = req.body;
 
-  // Insert the assignment into the database for the specified student
   const insertQuery = `
     INSERT INTO Homework (students_id, assignment_name, description, due_date)
     VALUES (?, ?, ?, ?)
@@ -72,7 +47,6 @@ homeworkRouter.post("/:id", (req, res) => {
     }
   });
 });
-
 homeworkRouter.put("/:id", (req, res) => {
   const homeworkId = req.params.id;
   const { course_id, students_id, assignment_name, description, due_date } =
