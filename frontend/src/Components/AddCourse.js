@@ -9,7 +9,7 @@ const AddCourse = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3300/add_course", { course })
+      .post("http://localhost:6500/add_course", { course })
       .then((result) => {
         if (result.data.Status) {
           navigate("/sidebar/course");

@@ -1,23 +1,23 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const AddStudent = () => {
+  // Initialize student state with default values
   const [student, setStudent] = useState({
     firstname: "",
     lastname: "",
     email: "",
     gender: "",
     number: "",
-    course_id: "",
   });
 
-  const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get("http://localhost:3300/Students")
+      .get("http://localhost:6500/students")
       .then((result) => {
         if (result.data.Status) {
+          // Assuming the students are in the 'students' property
+          setStudent(result.data.students[0]); // Assuming you want to work with the first student
         } else {
           alert(result.data.Error);
         }
@@ -28,20 +28,22 @@ const AddStudent = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
+
     formData.append("firstname", student.firstname);
     formData.append("lastname", student.lastname);
     formData.append("email", student.email);
     formData.append("gender", student.gender);
     formData.append("number", student.number);
-    formData.append("course_id", student.course_id);
 
     axios
-      .post("http://localhost:3300/add_students", formData)
+      .post("http://localhost:6500/students", formData)
       .then((result) => {
-        if (result.data.Status) {
-          navigate("/sidebar/Students");
+        if (result.data.message) {
+          // Student added successfully
+          console.log(result.data.message);
         } else {
-          alert(result.data.Error);
+          // Error adding student
+          console.error("Error adding student:", result.data.error);
         }
       })
       .catch((err) => {
@@ -56,8 +58,8 @@ const AddStudent = () => {
         <h3 className="text-center">Add Student</h3>
         <form className="row g-1" onSubmit={handleSubmit}>
           <div className="col-12">
-            <label htmlFor="course" className="form-label">
-              Course
+            <label htmlFor="student" className="form-label">
+              FirstName
             </label>
             <input
               type="text"
@@ -71,7 +73,7 @@ const AddStudent = () => {
             />
           </div>
           <div className="col-12">
-            <label htmlFor="course" className="form-label">
+            <label htmlFor="student" className="form-label">
               LastName
             </label>
             <input

@@ -1,17 +1,14 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-// ... (previous imports and component setup)
+import axios from "axios";
 
 const Students = () => {
   const [students, setStudents] = useState([]);
-  const [studentHomework, setStudentHomework] = useState(null);
 
   useEffect(() => {
     // Fetch the list of students
     axios
-      .get("http://localhost:3300/students")
+      .get("http://localhost:6500/students")
       .then((result) => {
         if (result && result.status === 200) {
           setStudents(result.data);
@@ -27,73 +24,62 @@ const Students = () => {
   }, []);
 
   const handleDelete = (id) => {
-    // Delete student and refresh the page
+    // Delete student and update state
     axios
-      .delete("http://localhost:3300/delete_students/" + id)
+      .delete("http://localhost:6500/delete_students/" + id)
       .then((result) => {
         if (result.data.Status) {
-          window.location.reload();
+          // Filter out the deleted student from the current state
+          setStudents((prevStudents) =>
+            prevStudents.filter((student) => student.id !== id)
+          );
         } else {
           alert(result.data.Error);
         }
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("An error occurred while deleting the student.");
       });
   };
 
-  const handleClick = async (id) => {
-    try {
-      // Fetch additional student homework when a student is clicked
-      const response = await axios.get(
-        `http://localhost:3300/students/${id}/homework`
-      );
-
-      if (response.data.Status) {
-        setStudentHomework(response.data.Result);
-      } else {
-        alert(response.data.Error);
-      }
-    } catch (error) {
-      console.error(error);
-      alert("An error occurred while fetching homework data.");
-    }
-  };
-
   return (
-    <div className="px-5 mt-3">
-      <div className="d-flex justify-content-center">
+    <div className="container mt-4">
+      <div className="d-flex justify-content-center mb-3">
         <h3>Students List</h3>
       </div>
-      <Link to="/sidebar/add_student" className="btn btn-success">
-        Add Student
-      </Link>
-      <div className="mt-3">
-        <table className="table">
-          <thead>
+      <div className="table-responsive">
+        <table className="table table-bordered table-hover">
+          <thead className="table-dark">
             <tr>
-              <th>firstname</th>
-              <th>lastname</th>
-              <th>email</th>
-              <th>gender</th>
-              <th>number</th>
+              <th scope="col">First Name</th>
+              <th scope="col">Last Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Gender</th>
+              <th scope="col">Number</th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {students.map((e) => (
-              <tr key={e.id} onClick={() => handleClick(e.id)}>
-                <td>{e.firstname}</td>
-                <td>{e.lastname}</td>
-                <td>{e.email}</td>
-                <td>{e.gender}</td>
-                <td>{e.number}</td>
+            {students.map((student) => (
+              <tr key={student.id}>
                 <td>
+                  {/* Apply custom styles to the Link component */}
                   <Link
-                    to={`/sidebar/edit_student/${e.id}`}
-                    className="btn btn-info btn-sm me-2"
+                    to={`/students/${student.id}`}
+                    style={{ color: "black", textDecoration: "none" }}
                   >
-                    Edit
+                    {student.firstname}
                   </Link>
+                </td>
+                <td>{student.lastname}</td>
+                <td>{student.email}</td>
+                <td>{student.gender}</td>
+                <td>{student.number}</td>
+                <td>
                   <button
                     className="btn btn-warning btn-sm"
-                    onClick={() => handleDelete(e.id)}
+                    onClick={() => handleDelete(student.id)}
                   >
                     Delete
                   </button>
@@ -103,19 +89,7 @@ const Students = () => {
           </tbody>
         </table>
       </div>
-      {/* Display additional student homework info */}
-      {studentHomework && (
-        <div>
-          <h4>Additional Student Homework Info</h4>
-          {/* Display homework info based on the structure of your data */}
-          <p>Assignment: {studentHomework.assignment_name}</p>
-          <p>Destription: {studentHomework.description}</p>
-          <p>Due Date: {studentHomework.due_date}</p>
-          {/* Add more details as needed */}
-        </div>
-      )}
     </div>
   );
 };
-
 export default Students;

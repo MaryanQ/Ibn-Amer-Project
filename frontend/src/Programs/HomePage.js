@@ -6,7 +6,7 @@ import course1 from "../Images/course1.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGraduationCap, faUser } from "@fortawesome/free-solid-svg-icons";
 import { IconContext } from "react-icons";
-import "./style.css";
+import "./styles.css";
 
 const HomePage = () => {
   return (

@@ -6,7 +6,7 @@ import reviewer1 from "../Images/reviewer1.png";
 import reviewer2 from "../Images/reviewer2.png";
 import reviewer3 from "../Images/reviewer3.jpg";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import "./style.css";
+import "./styles.css";
 import "./kurser.css";
 import "./elever.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

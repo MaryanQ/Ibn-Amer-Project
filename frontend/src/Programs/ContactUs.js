@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "../Images/logo.png";
 import background from "../Images/Background.jpg";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import "./style.css";
+import "./styles.css";
 import "./kurser.css";
 import "./login.css";
 import "./kontaktos.css";
