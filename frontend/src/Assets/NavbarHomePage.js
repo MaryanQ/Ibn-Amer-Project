@@ -5,7 +5,7 @@ import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import { IconContext } from "react-icons";
 import myVideo from "../Images/IBN AMER INSTITUTE (2).mp4";
-import "../Programs/style.css";
+import "../Programs/styles.css";
 import logo from "../Images/logo.png";
 
 const Navbar = () => {
