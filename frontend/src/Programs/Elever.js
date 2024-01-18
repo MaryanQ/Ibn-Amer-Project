@@ -1,77 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../Images/logo.png";
-import background from "../Images/Background.jpg";
+import Navbar from "../Assets/NavbarPages"; // Import the Navbar component
 import reviewer1 from "../Images/reviewer1.png";
 import reviewer2 from "../Images/reviewer2.png";
 import reviewer3 from "../Images/reviewer3.jpg";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./style.css";
 import "./kurser.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronRight,
+  faMapMarker,
+  faEnvelope,
+  faPhone,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Elever = () => {
-  const toggleCourseBody = () => {
-    // Implement your toggleCourseBody functionality here
-  };
-
-  const showMenu = () => {
-    document.getElementById("navLinkss").style.right = "0";
-  };
-
-  const hideMenu = () => {
-    document.getElementById("navLinkss").style.right = "-200px";
-  };
-
   return (
     <div>
       <header className="header1">
-        <nav>
-          <img className="kurser-img" src={background} alt="background" />
-
-          <Link to="/">
-            <img src={logo} alt="Logo" />
-          </Link>
-
-          <div className="nav-links" id="navLinks">
-            <i className="fa fa-times" onClick={() => this.hideMenu()}></i>
-            <ul>
-              <li>
-                <Link to="/">HJEM</Link>
-              </li>
-              <li>
-                <Link to="/programs/about-us">OM OS</Link>
-              </li>
-              <li>
-                <Link to="#">KURSER</Link>
-                <ul className="dropdown">
-                  <li>
-                    <Link to="/programs/Udenadslaering">Udenadslæring</Link>
-                  </li>
-                  <li>
-                    <Link to="/programs/tajweed">Tajweed</Link>
-                  </li>
-                  <li>
-                    <Link to="/programs/ijazah">Ijazah</Link>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <Link to="/programs/teachers">UNDERVISER</Link>
-              </li>
-              <li>
-                <Link to="/programs/elever">ELEVER</Link>
-              </li>
-              <li>
-                <Link to="/programs/contactUs">KONTAKT OS</Link>
-              </li>
-              <li>
-                <Link to="/login">LOGIN</Link>
-              </li>
-            </ul>
-          </div>
-          <i className="fa fa-bars" onClick={() => this.showMenu()}></i>
-        </nav>
-
+        <Navbar />
         <div className="text-box1">
           <h1>Elever</h1>
           <p>
@@ -239,14 +187,10 @@ const Elever = () => {
             </p>
             <div className="footer-socials">
               <li>
-                <a href="">
-                  <i className="fa fa-facebook-official"></i>
-                </a>
+                <a href=""></a>
               </li>
               <li>
-                <a href="">
-                  <i className="fa fa-instagram"></i>
-                </a>
+                <a href=""></a>
               </li>
             </div>
           </div>
@@ -255,8 +199,7 @@ const Elever = () => {
             <ul>
               <li>
                 <span>
-                  {" "}
-                  <i className="fa fa-map-marker"></i>
+                  <FontAwesomeIcon icon={faMapMarker} />
                 </span>
                 <p>
                   <a href="#">Hørkær 32, 2730 Herlev</a>
@@ -264,7 +207,7 @@ const Elever = () => {
               </li>
               <li>
                 <span>
-                  <i className="fa fa-envelope"></i>
+                  <FontAwesomeIcon icon={faEnvelope} />
                 </span>
                 <p>
                   <a href="#">IbnAmer@hotmail.com</a>
@@ -272,7 +215,7 @@ const Elever = () => {
               </li>
               <li>
                 <span>
-                  <i className="fa fa-phone"></i>
+                  <FontAwesomeIcon icon={faPhone} />
                 </span>
                 <p>
                   <a href="#">+45 00 00 00 00 </a>
@@ -285,42 +228,50 @@ const Elever = () => {
             <ul>
               <li>
                 <Link to="/">
-                  <i className="fa fa-chevron-right"></i>Hjem
+                  <FontAwesomeIcon icon={faChevronRight} />
+                  Hjem
                 </Link>
               </li>
               <li>
                 <Link to="/programs/udenadslaering">
-                  <i className="fa fa-chevron-right"></i>Udenadslæring
+                  <FontAwesomeIcon icon={faChevronRight} />
+                  Udenadslæring
                 </Link>
               </li>
               <li>
                 <Link to="/programs/tajweed">
-                  <i className="fa fa-chevron-right"></i>Tajweed
+                  <FontAwesomeIcon icon={faChevronRight} />
+                  Tajweed
                 </Link>
               </li>
               <li>
                 <Link to="/programs/ijazah">
-                  <i className="fa fa-chevron-right"></i>ijazah
+                  <FontAwesomeIcon icon={faChevronRight} />
+                  Ijazah
                 </Link>
               </li>
               <li>
                 <Link to="/programs/elever">
-                  <i className="fa fa-chevron-right"></i>Elever
+                  <FontAwesomeIcon icon={faChevronRight} />
+                  Elever
                 </Link>
               </li>
               <li>
                 <Link to="/programs/about-us">
-                  <i className="fa fa-chevron-right"></i>Om os
+                  <FontAwesomeIcon icon={faChevronRight} />
+                  Om os
                 </Link>
               </li>
               <li>
                 <Link to="/programs/contactUs">
-                  <i className="fa fa-chevron-right"></i>Kontakt os
+                  <FontAwesomeIcon icon={faChevronRight} />
+                  Kontakt os
                 </Link>
               </li>
               <li>
                 <Link to="/programs/teachers">
-                  <i className="fa fa-chevron-right"></i>Underviser
+                  <FontAwesomeIcon icon={faChevronRight} />
+                  Underviser
                 </Link>
               </li>
             </ul>

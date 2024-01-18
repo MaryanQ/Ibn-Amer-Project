@@ -146,6 +146,9 @@ nav img {
   width: 100%;
 }
 
+.menu-bars {
+  display: none;
+}
 /*------------DROP DOOWN------------*/
 ul li ul.dropdown li {
   display: block;
@@ -285,6 +288,13 @@ nav .fa {
     z-index: 2;
     transition: 1s;
   }
+  .nav-links ul li {
+    display: block;
+  }
+  .nav-links.active {
+    right: 0;
+    transition: 450ms;
+  }
   nav .fa {
     display: block;
     color: #000000;
@@ -303,6 +313,9 @@ nav .fa {
 
   .nav-links ul li:hover::after {
     background-color: #ffd900;
+  }
+  .menu-bars {
+    display: block;
   }
   nav img {
     width: 100px;

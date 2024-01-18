@@ -11,6 +11,13 @@ import reviewer3 from "../Images/reviewer3.jpg";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./style.css";
 import "./kurser.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronRight,
+  faMapMarker,
+  faEnvelope,
+  faPhone,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Ijazah = () => {
   const toggleCourseBody = () => {
@@ -319,14 +326,10 @@ const Ijazah = () => {
             </p>
             <div className="footer-socials">
               <li>
-                <a href="">
-                  <i className="fa fa-facebook-official"></i>
-                </a>
+                <a href=""></a>
               </li>
               <li>
-                <a href="">
-                  <i className="fa fa-instagram"></i>
-                </a>
+                <a href=""></a>
               </li>
             </div>
           </div>
@@ -335,8 +338,7 @@ const Ijazah = () => {
             <ul>
               <li>
                 <span>
-                  {" "}
-                  <i className="fa fa-map-marker"></i>
+                  <FontAwesomeIcon icon={faMapMarker} />
                 </span>
                 <p>
                   <a href="#">Hørkær 32, 2730 Herlev</a>
@@ -344,7 +346,7 @@ const Ijazah = () => {
               </li>
               <li>
                 <span>
-                  <i className="fa fa-envelope"></i>
+                  <FontAwesomeIcon icon={faEnvelope} />
                 </span>
                 <p>
                   <a href="#">IbnAmer@hotmail.com</a>
@@ -352,7 +354,7 @@ const Ijazah = () => {
               </li>
               <li>
                 <span>
-                  <i className="fa fa-phone"></i>
+                  <FontAwesomeIcon icon={faPhone} />
                 </span>
                 <p>
                   <a href="#">+45 00 00 00 00 </a>
@@ -365,42 +367,50 @@ const Ijazah = () => {
             <ul>
               <li>
                 <Link to="/">
-                  <i className="fa fa-chevron-right"></i>Hjem
+                  <FontAwesomeIcon icon={faChevronRight} />
+                  Hjem
                 </Link>
               </li>
               <li>
                 <Link to="/programs/udenadslaering">
-                  <i className="fa fa-chevron-right"></i>Udenadslæring
+                  <FontAwesomeIcon icon={faChevronRight} />
+                  Udenadslæring
                 </Link>
               </li>
               <li>
                 <Link to="/programs/tajweed">
-                  <i className="fa fa-chevron-right"></i>Tajweed
+                  <FontAwesomeIcon icon={faChevronRight} />
+                  Tajweed
                 </Link>
               </li>
               <li>
                 <Link to="/programs/ijazah">
-                  <i className="fa fa-chevron-right"></i>ijazah
+                  <FontAwesomeIcon icon={faChevronRight} />
+                  Ijazah
                 </Link>
               </li>
               <li>
                 <Link to="/programs/elever">
-                  <i className="fa fa-chevron-right"></i>Elever
+                  <FontAwesomeIcon icon={faChevronRight} />
+                  Elever
                 </Link>
               </li>
               <li>
                 <Link to="/programs/about-us">
-                  <i className="fa fa-chevron-right"></i>Om os
+                  <FontAwesomeIcon icon={faChevronRight} />
+                  Om os
                 </Link>
               </li>
               <li>
                 <Link to="/programs/contactUs">
-                  <i className="fa fa-chevron-right"></i>Kontakt os
+                  <FontAwesomeIcon icon={faChevronRight} />
+                  Kontakt os
                 </Link>
               </li>
               <li>
                 <Link to="/programs/teachers">
-                  <i className="fa fa-chevron-right"></i>Underviser
+                  <FontAwesomeIcon icon={faChevronRight} />
+                  Underviser
                 </Link>
               </li>
             </ul>
