@@ -74,6 +74,7 @@ studentsRouter.post("/", (req, res) => {
 
 studentsRouter.delete("/:id", (req, res) => {
   const studentid = req.params.id;
+  console.log("Received DELETE request for student ID:", studentid);
 
   // Validering af studentId (her antages det, at studentId skal være en numerisk værdi)
   if (!studentid || isNaN(studentid)) {

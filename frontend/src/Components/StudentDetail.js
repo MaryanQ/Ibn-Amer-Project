@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Update import
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
@@ -15,6 +15,7 @@ const StudentDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const fetchData = useCallback(async () => {
     try {
@@ -27,7 +28,6 @@ const StudentDetail = () => {
       const quranProgressRes = await axios.get(
         `http://localhost:6500/QuranProgress/${id}`
       );
-      console.log("Quran Progress API Response:", quranProgressRes.data);
 
       if (!Array.isArray(homeworkRes.data)) {
         console.error("Invalid homework data format:", homeworkRes.data);
@@ -109,7 +109,12 @@ const StudentDetail = () => {
 
   const handleSave = () => {
     // Add the logic to save the data or perform any other actions
-    console.log("Save button clicked");
+
+    // Close the modal
+    closeModal();
+
+    // Navigate back to the students page
+    navigate("/sidebar/students"); // Replace "/students" with the correct route
   };
 
   const closeModal = () => {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const AddStudent = () => {
   // Initialize student state with default values
@@ -10,6 +11,8 @@ const AddStudent = () => {
     gender: "",
     number: "",
   });
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -27,27 +30,34 @@ const AddStudent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData();
 
-    formData.append("firstname", student.firstname);
-    formData.append("lastname", student.lastname);
-    formData.append("email", student.email);
-    formData.append("gender", student.gender);
-    formData.append("number", student.number);
+    const payload = {
+      firstname: student.firstname,
+      lastname: student.lastname,
+      email: student.email,
+      gender: student.gender,
+      number: student.number,
+    };
+
+    // Log the content of payload
+    console.log(payload);
 
     axios
-      .post("http://localhost:6500/students", formData)
+      .post("http://localhost:6500/students", payload, {
+        headers: { "Content-Type": "application/json" },
+      })
       .then((result) => {
         if (result.data.message) {
           // Student added successfully
           console.log(result.data.message);
+          navigate("/sidebar/students");
         } else {
           // Error adding student
           console.error("Error adding student:", result.data.error);
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
         alert("Failed to add student. Please check the form and try again.");
       });
   };

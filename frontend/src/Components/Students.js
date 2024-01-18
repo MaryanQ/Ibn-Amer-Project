@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import ConfirmationDialog from "./ConfirmationDialog";
+import { Link } from "react-router-dom";
 
 const Students = () => {
   const [students, setStudents] = useState([]);
+  const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
+  const [studentIdToDelete, setStudentIdToDelete] = useState(null);
 
   useEffect(() => {
     // Fetch the list of students
@@ -24,23 +27,43 @@ const Students = () => {
   }, []);
 
   const handleDelete = (id) => {
-    // Delete student and update state
+    setStudentIdToDelete(id);
+    setShowConfirmationDialog(true);
+  };
+
+  const handleConfirmationDialogDelete = () => {
     axios
-      .delete("http://localhost:6500/delete_students/" + id)
+      .delete(`http://localhost:6500/students/${studentIdToDelete}`, {
+        withCredentials: true,
+      })
       .then((result) => {
-        if (result.data.Status) {
+        if (result.data.message) {
           // Filter out the deleted student from the current state
           setStudents((prevStudents) =>
-            prevStudents.filter((student) => student.id !== id)
+            prevStudents.filter((student) => student.id !== studentIdToDelete)
           );
+          console.log(result.data.message); // Log success message
         } else {
-          alert(result.data.Error);
+          alert(
+            result.data.error || "An error occurred while deleting the student."
+          );
         }
       })
       .catch((error) => {
-        console.error(error);
+        console.error("Error deleting student:", error);
         alert("An error occurred while deleting the student.");
+      })
+      .finally(() => {
+        // Reset state after deletion
+        setShowConfirmationDialog(false);
+        setStudentIdToDelete(null);
       });
+  };
+
+  const handleCancelDelete = () => {
+    // Reset state if the user cancels
+    setShowConfirmationDialog(false);
+    setStudentIdToDelete(null);
   };
 
   return (
@@ -64,7 +87,6 @@ const Students = () => {
             {students.map((student) => (
               <tr key={student.id}>
                 <td>
-                  {/* Apply custom styles to the Link component */}
                   <Link
                     to={`/students/${student.id}`}
                     style={{ color: "black", textDecoration: "none" }}
@@ -89,7 +111,16 @@ const Students = () => {
           </tbody>
         </table>
       </div>
+
+      {showConfirmationDialog && (
+        <ConfirmationDialog
+          message="Are you sure you want to delete the student?"
+          onConfirm={handleConfirmationDialogDelete}
+          onCancel={handleCancelDelete}
+        />
+      )}
     </div>
   );
 };
+
 export default Students;
