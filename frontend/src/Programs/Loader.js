@@ -1,12 +1,20 @@
-import React from "react";
-import "./styles.css";
+import React, { useEffect } from "react";
+import "./styles.css"; // Import your loader styles
 
 const Loader = () => {
-  return (
-    <div>
-      <div className="loader"></div>
-    </div>
-  );
+  useEffect(() => {
+    const loader = document.querySelector(".loader");
+
+    if (loader) {
+      console.log("Loader is rendered");
+      setTimeout(() => {
+        loader.classList.add("loader--hidden");
+        console.log("Loader is hidden");
+      }, 500);
+    }
+  }, []);
+
+  return <div className="loader"></div>;
 };
 
 export default Loader;

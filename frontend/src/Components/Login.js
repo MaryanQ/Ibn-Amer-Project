@@ -1,77 +1,79 @@
-
 import React, { useState } from "react";
-import "./style.css";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import "../Programs/styles.css";
+import "../Programs/login.css";
+import logo from "../Images/logo.png";
+import { Link } from "react-router-dom";
+import Loader from "../Programs/Loader";
 
 const Login = () => {
   const [values, setValues] = useState({
     email: "",
     password: "",
   });
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
-  axios.defaults.withCredentials = true;
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    axios
-      .post("http://localhost:6500/login", values)
-      .then((result) => {
-        if (result.data.loginStatus) {
-          localStorage.setItem("valid", true);
-          navigate("/sidebar");
-        } else {
-          setError(result.data.Error);
-        }
-      })
-      .catch((err) => console.log(err));
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Add your login logic here
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 loginPage">
-      <div className="p-3 rounded w-25 border loginForm">
-        <div className="text-warning">{error && error}</div>
-        <h2>Login Page</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="email">
-              <strong>Email:</strong>
-            </label>
-            <input
-              type="email"
-              name="email"
-              autoComplete="off"
-              placeholder="Enter Email"
-              onChange={(e) => setValues({ ...values, email: e.target.value })}
-              className="form-control rounded-0"
-            />
+    <>
+      <Loader />
+      <nav>
+        <Link to="/">
+          <img src={logo} alt="Logo" />
+        </Link>
+      </nav>
+      <div className="contact-section">
+        <section className="tildmeddig">
+          <div className="wrapper">
+            <form onSubmit={handleSubmit} className="cf custom-form">
+              <h1>Login</h1>
+              <div className="input-box">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  autoComplete="off"
+                  onChange={(e) =>
+                    setValues({ ...values, email: e.target.value })
+                  }
+                  className="rounded-0"
+                  required
+                />
+              </div>
+              <div className="input-box">
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  onChange={(e) =>
+                    setValues({ ...values, password: e.target.value })
+                  }
+                  className="rounded-0"
+                  required
+                />
+              </div>
+              <div class="remember-forgot">
+                <label>
+                  <input type="checkbox" />
+                  Remember me
+                </label>
+                <a href="#">Forgot password</a>
+              </div>
+              <button type="submit" className="btn">
+                Login
+              </button>
+              <div class="register-link">
+                <p>
+                  Dont't have an account <a href="#">Register</a>
+                </p>
+              </div>
+            </form>
           </div>
-          <div className="mb-3">
-            <label htmlFor="password">
-              <strong>Password:</strong>
-            </label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter Password"
-              onChange={(e) =>
-                setValues({ ...values, password: e.target.value })
-              }
-              className="form-control rounded-0"
-            />
-          </div>
-          <button className="btn btn-success w-100 rounded-0 mb-2">
-            Log in
-          </button>
-          <div className="mb-1">
-            <input type="checkbox" name="tick" id="tick" className="me-2" />
-            <label htmlFor="password">
-              You are Agree with terms & conditions
-            </label>
-          </div>
-        </form>
+        </section>
       </div>
-    </div>
+    </>
   );
 };
 

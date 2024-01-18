@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Modal from "react-modal";
+//import Modal from "react-modal";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -15,6 +15,7 @@ import StudentDetail from "./Components/StudentDetail";
 import EditStudent from "./Components/EditStudent";
 import AboutUs from "./Programs/AboutUs";
 import ContactUs from "./Programs/ContactUs";
+import Elever from "./Programs/Elever";
 import Udenadslaering from "./Programs/Udenadslaering";
 import HomePage from "./Programs/HomePage";
 import Ijazah from "./Programs/Ijazah";
@@ -22,6 +23,7 @@ import Tajweed from "./Programs/Tajweed";
 import Teachers from "./Programs/Teachers";
 import Homework from "./Components/Homework";
 import MyCalendar from "./Components/MyCalender";
+
 function App() {
   return (
     <Router>
@@ -39,7 +41,8 @@ function App() {
         <Route path="/sidebar/mycalendar" element={<MyCalendar />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/programs/about-us" element={<AboutUs />} />
-        <Route path="/programs/contact-us" element={<ContactUs />} />
+        <Route path="/programs/contactUs" element={<ContactUs />} />
+        <Route path="/programs/elever" element={<Elever />} />
         <Route path="/programs/udenadslaering" element={<Udenadslaering />} />
         <Route path="/programs/ijazah" element={<Ijazah />} />
         <Route path="/programs/tajweed" element={<Tajweed />} />

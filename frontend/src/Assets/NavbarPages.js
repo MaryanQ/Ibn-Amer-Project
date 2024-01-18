@@ -5,7 +5,7 @@ import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import { IconContext } from "react-icons";
 import background from "../Images/Background.jpg";
-import "../Programs/style.css";
+import "../Programs/styles.css";
 import logo from "../Images/logo.png";
 
 const NavbarPages = () => {
