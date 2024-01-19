@@ -1,3 +1,9 @@
+:root {
+  --yellow: rgb(35, 109, 89);
+  --green: rgb(35, 109, 89);
+  --light-green: rgb(4, 167, 137);
+}
+
 .tildmeddig {
   align-items: center;
   text-align: center;
@@ -6,24 +12,24 @@
 }
 
 .wrapper {
-  width: 500px;
-  height: 90vh;
-  background-color: transparent;
+  width: 400px;
+  height: 70vh;
+  color: #fff;
+  background-color: rgba(59, 122, 78, 0.491);
   border: 2px solid rgba(0, 0, 0, 0.2);
   backdrop-filter: blur;
   box-shadow: 0 0 10px var(--green);
-  color: #000000;
   border-radius: 10px;
   padding: 30px 40px;
   align-items: center;
   text-align: center;
   justify-content: center;
   display: flex;
-  margin-bottom: 10px;
+  margin-bottom: 50px;
 }
 
 .wrapper form {
-  margin-top: -40%;
+  margin-top: -10%;
   width: 80%;
   height: 50vh;
   margin-bottom: 10px;
