@@ -1,10 +1,9 @@
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 
 const EditStudent = () => {
-  const { id } = useParams(); // Add this line to get the 'id' from URL parameters
-
+  const { id } = useParams();
   const [student, setStudent] = useState({
     firstname: "",
     lastname: "",
@@ -12,50 +11,65 @@ const EditStudent = () => {
     gender: "",
     number: "",
   });
-
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get("http://localhost:6500/students")
-      .then((result) => {
-        if (result.data.Status) {
-          setStudent(result.data.Result);
-        } else {
-          alert(result.data.Error);
+    const fetchData = async () => {
+      try {
+        const studentResponse = await axios.get(
+          `http://localhost:6500/students/${id}`
+        );
+
+        const fetchedStudent =
+          studentResponse.data &&
+          (Array.isArray(studentResponse.data)
+            ? studentResponse.data[0]
+            : studentResponse.data);
+
+        if (!fetchedStudent) {
+          console.error("Invalid student data format");
+          setLoading(false);
+          return;
         }
-      })
-      .catch((err) => console.log(err));
 
-    axios
-      .get("http://localhost:6500/students/" + id)
-      .then((result) => {
-        setStudent((prevStudent) => ({
-          ...prevStudent,
-          firstname: result.data.Result[0].name,
-          lastname: result.data.Result[0].lastname,
-          email: result.data.Result[0].email,
-          gender: result.data.Result[0].gender,
-          number: result.data.Result[0].number,
-          student_id: result.data.Result[0].student_id,
-        }));
-      })
-      .catch((err) => console.log(err));
-  }, [id, student]);
+        setStudent({
+          firstname: fetchedStudent.firstname,
+          lastname: fetchedStudent.lastname,
+          email: fetchedStudent.email,
+          gender: fetchedStudent.gender,
+          number: fetchedStudent.number,
+        });
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+        // Handle error feedback to the user (e.g., show an error message or redirect)
+      }
+    };
 
-  const handleSubmit = (e) => {
+    fetchData();
+  }, [id]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .put("http://localhost:6500/edit_student/" + id, student)
-      .then((result) => {
-        if (result.data.Status) {
-          navigate("/sidebar/students");
-        } else {
-          alert(result.data.Error);
-        }
-      })
-      .catch((err) => console.log(err));
+
+    try {
+      console.log("ID:", id);
+      console.log("Student:", student);
+      await axios.put(`http://localhost:6500/edit_student/${id}`, student);
+
+      navigate("/sidebar/student");
+    } catch (error) {
+      console.error("Error updating student:", error);
+      alert("Failed to update student. Please try again.");
+      console.log("Axios error details:", error.response); // Log Axios error details
+    }
   };
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div className="d-flex justify-content-center align-items-center mt-3">
@@ -63,105 +77,77 @@ const EditStudent = () => {
         <h3 className="text-center">Edit Student</h3>
         <form className="row g-1" onSubmit={handleSubmit}>
           <div className="col-12">
-            <label for="inputName" className="form-label">
-              firstname
+            <label htmlFor="inputFirstName" className="form-label">
+              FirstName
             </label>
             <input
               type="text"
               className="form-control rounded-0"
-              id="inputName"
-              placeholder="Enter firstname"
-              value={student.name}
+              id="inputFirstName"
+              placeholder="Enter FirstName"
+              value={student.firstname}
               onChange={(e) =>
                 setStudent({ ...student, firstname: e.target.value })
               }
             />
           </div>
-          <div className="col-12">
-            <label for="inputEmail4" className="form-label">
-              Lastname
-            </label>
-            <input
-              type="Lastname"
-              className="form-control rounded-0"
-              id="inputLastname"
-              placeholder="Enter lastname"
-              autoComplete="off"
-              value={student.lastname}
-              onChange={(e) =>
-                setStudent({ ...student, lastname: e.target.value })
-              }
-            />
-          </div>
-          <div className="col-12">
-            <label for="inputSalary" className="form-label">
-              Email
-            </label>
-            <input
-              type="text"
-              className="form-control rounded-0"
-              id="imputEmail"
-              placeholder="Enter Email"
-              autoComplete="off"
-              value={student.email}
-              onChange={(e) =>
-                setStudent({ ...student, email: e.target.value })
-              }
-            />
-          </div>
-          <div className="col-12">
-            <label for="inputGender" className="form-label">
-              gender
-            </label>
-            <input
-              type="text"
-              className="form-control rounded-0"
-              id="inputGender"
-              placeholder="Enter gender"
-              autoComplete="off"
-              value={student.gender}
-              onChange={(e) =>
-                setStudent({ ...student, gender: e.target.value })
-              }
-            />
-          </div>
-          <div className="col-12">
-            <label for="inputNumber" className="form-label">
-              Number
-            </label>
-            <input
-              type="number"
-              className="form-control rounded-0"
-              id="inputNumber"
-              placeholder="Enter number"
-              autoComplete="off"
-              value={student.number}
-              onChange={(e) =>
-                setStudent({ ...student, gender: e.target.value })
-              }
-            />
-          </div>
-          <div className="col-12">
-            <label for="student" className="form-label">
-              Student
-            </label>
-            <select
-              name="student"
-              id="student"
-              className="form-select"
-              onChange={(e) =>
-                setStudent({ ...student, student_id: e.target.value })
-              }
-            >
-              {student.map((c) => {
-                return <option value={c.id}>{c.name}</option>;
-              })}
-            </select>
-          </div>
+          <label htmlFor="inputLastname" className="form-label">
+            LastName
+          </label>
+          <input
+            type="text"
+            className="form-control rounded-0"
+            id="inputLastname"
+            placeholder="Enter Lastname"
+            autoComplete="off"
+            value={student.lastname}
+            onChange={(e) =>
+              setStudent({ ...student, lastname: e.target.value })
+            }
+          />
+
+          <label htmlFor="inputEmail" className="form-label">
+            Email
+          </label>
+          <input
+            type="email"
+            className="form-control rounded-0"
+            id="inputEmail4"
+            placeholder="Enter Email"
+            autoComplete="off"
+            value={student.email}
+            onChange={(e) => setStudent({ ...student, email: e.target.value })}
+          />
+
+          <label htmlFor="inputGender" className="form-label">
+            Gender
+          </label>
+          <input
+            type="text"
+            className="form-control rounded-0"
+            id="inputGender"
+            placeholder="Enter Gender"
+            autoComplete="off"
+            value={student.gender}
+            onChange={(e) => setStudent({ ...student, gender: e.target.value })}
+          />
+
+          <label htmlFor="inputNumber" className="form-label">
+            Number
+          </label>
+          <input
+            type="number"
+            className="form-control rounded-0"
+            id="inputNumber"
+            placeholder="12 34 56 78"
+            autoComplete="off"
+            value={student.number}
+            onChange={(e) => setStudent({ ...student, number: e.target.value })}
+          />
 
           <div className="col-12">
             <button type="submit" className="btn btn-primary w-100">
-              Edit Student
+              Update Student
             </button>
           </div>
         </form>

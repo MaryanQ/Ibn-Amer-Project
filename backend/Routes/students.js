@@ -98,22 +98,35 @@ studentsRouter.delete("/:id", (req, res) => {
 });
 
 //{ firstname, lastname, email, gender, number, image
-studentsRouter.put("/:id", (req, res) => {
+studentsRouter.put("/edit_student/:id", (req, res) => {
   const studentId = req.params.id;
+  console.log("Received PUT request for student with ID:", studentId);
+
+  // Validate that required fields are present in the request body
+  const { firstname, lastname, email, gender, number } = req.body;
+  if (!firstname || !lastname || !email || !gender || !number) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  console.log("Request Body:", req.body);
+
   const q =
     "UPDATE students SET `firstname`= ?, `lastname`= ?, `email`= ?, `gender`= ?, `number`= ? WHERE id =?";
 
-  const values = [
-    req.body.firstname,
-    req.body.lastname,
-    req.body.email,
-    req.body.gender,
-    req.body.number,
-  ];
+  const values = [firstname, lastname, email, gender, number, studentId];
 
-  dbConfig.query(q, [...values, studentId], (err, data) => {
-    if (err) return res.json(err);
-    return res.json("student has been updated successfully");
+  dbConfig.query(q, values, (err, data) => {
+    if (err) {
+      console.error("Error updating student:", err);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+
+    if (data.affectedRows === 0) {
+      return res.status(404).json({ error: "Student not found" });
+    }
+
+    console.log("Student updated successfully");
+    return res.status(200).json({ message: "Student updated successfully" });
   });
 });
 

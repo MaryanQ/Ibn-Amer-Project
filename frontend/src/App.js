@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Modal from "react-modal";
+
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -28,7 +28,9 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/sidebar" element={<Sidebar />} />
-        <Route path="/sidebar/edit_student/:id" element={<EditStudent />} />
+
+        <Route path="/studentEdit/:id" element={<EditStudent />} />
+
         <Route path="/sidebar/students" element={<Students />} />
         <Route path="/sidebar/course" element={<Course />} />
         <Route path="/sidebar/profile" element={<Profile />} />

@@ -10,7 +10,7 @@ const Sidebar = () => {
   axios.defaults.withCredentials = true;
 
   const handleLogout = () => {
-    axios.get("http://localhost:6500/logout").then((result) => {
+    axios.get("http://localhost:3000/logout").then((result) => {
       if (result.data.status) {
         navigate("login");
       }
@@ -67,24 +67,8 @@ const Sidebar = () => {
                   <span className="ms-2 d-none d-sm-inline">Course</span>
                 </Link>
               </li>
-              <li className="w-100">
-                <Link
-                  to="/sidebar/profile"
-                  className="nav-link px-0 align-middle text-white"
-                >
-                  <i className="fs-4 bi-person ms-2"></i>
-                  <span className="ms-2 d-none d-sm-inline">Profile</span>
-                </Link>
-              </li>
-              <li className="w-100">
-                <Link
-                  to="/sidebar/edit_student/:id"
-                  className="nav-link px-0 align-middle text-white"
-                >
-                  <i className="fs-4 bi-pencil ms-2"></i>
-                  <span className="ms-2 d-none d-sm-inline">Edit Student</span>
-                </Link>
-              </li>
+
+              <li className="w-100"></li>
               <li className="w-100" onClick={handleLogout}>
                 <Link className="nav-link px-0 align-middle text-white">
                   <i className="fs-4 bi-power ms-2"></i>

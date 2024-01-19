@@ -1,214 +1,151 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Update import
-import axios from "axios";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/ListGroup";
-import GradeSelector from "./GradeSelector";
-import DateSelector from "./DateSelector";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Card, Button, Modal } from "react-bootstrap";
 
 const StudentDetail = () => {
+  const [student, setStudent] = useState(null);
   const [homework, setHomework] = useState([]);
+  const [quranProgress, setQuranProgress] = useState([]);
   const [attendance, setAttendance] = useState([]);
-  const [QuranProgress, setQuranProgress] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [editedHomework, setEditedHomework] = useState("");
+  const [editedAttendance, setEditedAttendance] = useState("");
+  const [editedQuranProgress, setEditedQuranProgress] = useState("");
 
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const fetchData = useCallback(async () => {
-    try {
-      const homeworkRes = await axios.get(
-        `http://localhost:6500/homework/${id}`
-      );
-      const attendanceRes = await axios.get(
-        `http://localhost:6500/attendance/${id}`
-      );
-      const quranProgressRes = await axios.get(
-        `http://localhost:6500/QuranProgress/${id}`
-      );
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch student data
+        const studentRes = await fetch(`http://localhost:6500/students/${id}`);
+        const studentData = await studentRes.json();
+        setStudent(studentData);
 
-      if (!Array.isArray(homeworkRes.data)) {
-        console.error("Invalid homework data format:", homeworkRes.data);
-        setHomework([]);
-      } else {
-        setHomework(homeworkRes.data);
-      }
+        // Fetch additional data (homework, quranProgress, attendance)
+        const homeworkRes = await fetch(`http://localhost:6500/homework/${id}`);
+        const homeworkData = await homeworkRes.json();
+        setHomework(homeworkData);
 
-      if (Array.isArray(attendanceRes.data)) {
-        setAttendance(attendanceRes.data);
-      } else {
-        console.error("Invalid attendance data format:", attendanceRes.data);
-        console.log("Attendance data:", attendanceRes.data);
-        setAttendance([]);
-      }
-
-      if (Array.isArray(quranProgressRes.data)) {
-        setQuranProgress(quranProgressRes.data);
-      } else {
-        console.error(
-          "Invalid Quran progress data format:",
-          quranProgressRes.data
+        const quranProgressRes = await fetch(
+          `http://localhost:6500/quranprogress/${id}`
         );
-        setQuranProgress([]);
+        const quranProgressData = await quranProgressRes.json();
+        setQuranProgress(quranProgressData);
+
+        const attendanceRes = await fetch(
+          `http://localhost:6500/attendance/${id}`
+        );
+        const attendanceData = await attendanceRes.json();
+        setAttendance(attendanceData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  }, [id]);
+    };
 
-  useEffect(() => {
     fetchData();
-  }, [id, fetchData]);
-
-  useEffect(() => {
-    console.log("Homework data:", homework);
-  }, [homework]);
-
-  useEffect(() => {
-    console.log("Attendance data:", attendance);
-  }, [attendance]);
-
-  useEffect(() => {
-    console.log("QuranProgress data:", QuranProgress);
-  }, [QuranProgress]);
-
-  const handleEditHomework = (homeworkId) => {
-    // Your logic here
-    setIsModalOpen(true);
-  };
-
-  const handleAttendanceChange = (attendanceId, isPresent) => {
-    setAttendance((prevAttendance) =>
-      prevAttendance.map((item) =>
-        item.id === attendanceId ? { ...item, is_present: isPresent } : item
-      )
-    );
-  };
-
-  const handleDateChange = (attendanceId, selectedDate) => {
-    setAttendance((prevAttendance) =>
-      prevAttendance.map((item) =>
-        item.id === attendanceId
-          ? { ...item, attendance_date: selectedDate }
-          : item
-      )
-    );
-  };
-
-  const handleCompletionChange = (quranProgressId, isCompleted) => {
-    setQuranProgress((prevQuranProgress) =>
-      prevQuranProgress.map((item) =>
-        item.id === quranProgressId
-          ? { ...item, is_completed: isCompleted }
-          : item
-      )
-    );
-  };
+  }, [id]);
 
   const handleSave = () => {
     // Add the logic to save the data or perform any other actions
-
-    // Close the modal
-    closeModal();
-
     // Navigate back to the students page
-    navigate("/sidebar/students"); // Replace "/students" with the correct route
+    navigate("/sidebar/students");
   };
 
-  const closeModal = () => {
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleEditHomework = () => {
+    // Add logic to update the edited homework data
+    console.log("Edited Homework:", editedHomework);
+    // You can implement the logic to update the homework data on the server
+  };
+
+  const handleEditAttendance = () => {
+    // Add logic to update the edited attendance data
+    console.log("Edited Attendance:", editedAttendance);
+    // You can implement the logic to update the attendance data on the server
+  };
+
+  const handleEditQuranProgress = () => {
+    // Add logic to update the edited Quran progress data
+    console.log("Edited Quran Progress:", editedQuranProgress);
+    // You can implement the logic to update the Quran progress data on the server
   };
 
   return (
     <div className="container mt-4">
-      <div className="d-flex justify-content-center">
-        <h4 className="text-center text-primary mb-4">Student Management</h4>
-      </div>
-
       <Card className="shadow-lg">
         <Card.Body>
           <Card.Title className="text-center mb-4">Student Details</Card.Title>
 
+          {student && (
+            <>
+              <div className="mb-3">
+                <strong>Name:</strong> {student.name}
+              </div>
+              <div className="mb-3">
+                <strong>Email:</strong> {student.email}
+              </div>
+              <div className="mb-3">
+                <strong>Gender:</strong> {student.gender}
+              </div>
+              {/* Add more details as needed */}
+            </>
+          )}
+
           <div className="info-section mb-4">
             <h3>Homework:</h3>
             {homework.length > 0 ? (
-              <ListGroup>
+              <ul>
                 {homework.map((item) => (
-                  <ListGroup.Item key={item.homework_id}>
-                    <strong>Assignment:</strong> {item.assignment_name} <br />
-                    <strong>Description:</strong>{" "}
-                    <span
-                      dangerouslySetInnerHTML={{ __html: item.description }}
-                    />{" "}
-                    <strong>Due:</strong> {item.due_date} <br />
-                    <Button
-                      variant="info"
-                      onClick={() => handleEditHomework(item.homework_id)}
-                    >
-                      Edit
-                    </Button>
-                  </ListGroup.Item>
+                  <li key={item.id}>
+                    <strong>Assignment:</strong> {item.assignment_name}
+                    {/* Add more homework details */}
+                  </li>
                 ))}
-              </ListGroup>
+              </ul>
             ) : (
               <p>No homework available.</p>
             )}
           </div>
 
           <div className="info-section mb-4">
-            <h3>Attendance:</h3>
-            {attendance.length > 0 ? (
-              <ListGroup>
-                {attendance.map((item) => (
-                  <ListGroup.Item key={item.id}>
-                    <strong>Date:</strong>{" "}
-                    <DateSelector
-                      selectedDate={new Date(item.attendance_date)}
-                      onDateChange={(date) => handleDateChange(item.id, date)}
-                    />
-                    <br />
-                    <strong>Status:</strong>{" "}
-                    <select
-                      className="custom-select"
-                      value={item.is_present.toString()}
-                      onChange={(e) =>
-                        handleAttendanceChange(
-                          item.id,
-                          e.target.value === "true"
-                        )
-                      }
-                    >
-                      <option value="true">Present</option>
-                      <option value="false">Absent</option>
-                    </select>
-                  </ListGroup.Item>
+            <h3>Quran Progress:</h3>
+            {quranProgress.length > 0 ? (
+              <ul>
+                {quranProgress.map((item) => (
+                  <li key={item.id}>
+                    <strong>Chapter:</strong> {item.chapter_number}
+                    {/* Add more Quran progress details */}
+                  </li>
                 ))}
-              </ListGroup>
+              </ul>
             ) : (
-              <p>No attendance records available.</p>
+              <p>No Quran progress available.</p>
             )}
           </div>
 
           <div className="info-section mb-4">
-            <h3>Quran Progress:</h3>
-            <GradeSelector
-              onCompletionChange={(isCompleted) =>
-                handleCompletionChange(QuranProgress[0]?.id, isCompleted)
-              }
-            />
-            {QuranProgress.length > 0 ? (
-              <ListGroup>
-                {QuranProgress.map((item) => (
-                  <ListGroup.Item key={item.id}>
-                    Chapter: {item.chapter_number}, Completed:{" "}
-                    {item.is_completed.toString()}
-                  </ListGroup.Item>
+            <h3>Attendance:</h3>
+            {attendance.length > 0 ? (
+              <ul>
+                {attendance.map((item) => (
+                  <li key={item.id}>
+                    <strong>Date:</strong> {item.date}
+                    {/* Add more attendance details */}
+                  </li>
                 ))}
-              </ListGroup>
+              </ul>
             ) : (
-              <p>No Quran progress available.</p>
+              <p>No attendance records available.</p>
             )}
           </div>
         </Card.Body>
@@ -216,23 +153,63 @@ const StudentDetail = () => {
           <Button variant="success" onClick={handleSave}>
             Save
           </Button>
+          <Button variant="primary" onClick={handleOpenModal}>
+            View Details
+          </Button>
         </Card.Footer>
       </Card>
 
-      {/* Modal */}
-      <Modal show={isModalOpen} onHide={closeModal} size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Homework</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {/* Your StudentDetailsForm component goes here */}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={closeModal}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      {/* Display Modal if isModalOpen is true */}
+      {isModalOpen && (
+        <Modal show={isModalOpen} onHide={handleCloseModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Details</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {/* Add modal content here */}
+            <div>
+              {/* Edit Homework Form */}
+              <div className="mb-3">
+                <label>Edit Homework:</label>
+                <input
+                  type="text"
+                  value={editedHomework}
+                  onChange={(e) => setEditedHomework(e.target.value)}
+                />
+                <Button variant="primary" onClick={handleEditHomework}>
+                  Save Homework
+                </Button>
+              </div>
+
+              {/* Edit Quran Progress Form */}
+              <div className="mb-3">
+                <label>Edit Quran Progress:</label>
+                <input
+                  type="text"
+                  value={editedQuranProgress}
+                  onChange={(e) => setEditedQuranProgress(e.target.value)}
+                />
+                <Button variant="primary" onClick={handleEditQuranProgress}>
+                  Save Quran Progress
+                </Button>
+              </div>
+
+              {/* Edit Attendance Form */}
+              <div className="mb-3">
+                <label>Edit Attendance:</label>
+                <input
+                  type="text"
+                  value={editedAttendance}
+                  onChange={(e) => setEditedAttendance(e.target.value)}
+                />
+                <Button variant="primary" onClick={handleEditAttendance}>
+                  Save Attendance
+                </Button>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
+      )}
     </div>
   );
 };

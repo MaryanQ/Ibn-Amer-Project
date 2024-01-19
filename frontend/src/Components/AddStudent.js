@@ -30,7 +30,7 @@ const AddStudent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    console.log("Submit button clicked"); // Add this line
     const payload = {
       firstname: student.firstname,
       lastname: student.lastname,

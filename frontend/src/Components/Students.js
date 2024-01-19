@@ -67,20 +67,22 @@ const Students = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <div className="d-flex justify-content-center mb-3">
-        <h3>Students List</h3>
+    <div className="px-5 py-3">
+      <div className="d-flex justify-content-center mt-2">
+        <h3>Student List</h3>
       </div>
-      <div className="table-responsive">
-        <table className="table table-bordered table-hover">
-          <thead className="table-dark">
+      <Link to="/Sidebar/add_student" className="btn btn-success">
+        Add Student
+      </Link>
+      <div className="mt-3">
+        <table className="table">
+          <thead>
             <tr>
-              <th scope="col">First Name</th>
-              <th scope="col">Last Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Gender</th>
-              <th scope="col">Number</th>
-              <th scope="col">Actions</th>
+              <th>FirstName</th>
+              <th>LastName</th>
+              <th>Email</th>
+              <th>Gender</th>
+              <th>Number</th>
             </tr>
           </thead>
           <tbody>
@@ -99,11 +101,17 @@ const Students = () => {
                 <td>{student.gender}</td>
                 <td>{student.number}</td>
                 <td>
-                  <button
-                    className="btn btn-warning btn-sm"
-                    onClick={() => handleDelete(student.id)}
+                  <Link
+                    to={`/studentEdit/` + student.id}
+                    className="btn btn-primary btn-sm me-2"
                   >
-                    Delete
+                    edit
+                  </Link>
+                  <button
+                    onClick={(e) => handleDelete(student.id)}
+                    className="btn btn-sm btn-danger"
+                  >
+                    delete
                   </button>
                 </td>
               </tr>
