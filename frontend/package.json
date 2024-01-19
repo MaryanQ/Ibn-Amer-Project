@@ -29,11 +29,20 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
+  "babelrc": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "node -r esm ./node_modules/.bin/jest",
+    "test": "jest",
     "eject": "react-scripts eject"
+  },
+  "jest-preset.json": {
+    "preset": "babel-jest"
   },
   "eslintConfig": {
     "extends": [
@@ -55,7 +64,10 @@
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/preset-react": "^7.23.3",
+    "babel-jest": "^29.7.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"
