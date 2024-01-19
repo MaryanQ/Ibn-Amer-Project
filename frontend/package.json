@@ -38,7 +38,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
+    "test": "node -r esm ./node_modules/.bin/jest",
     "eject": "react-scripts eject"
   },
   "jest-preset.json": {
