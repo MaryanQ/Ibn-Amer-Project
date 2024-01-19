@@ -19,14 +19,6 @@ const Footer = () => {
             Dolorem quas eveniet, rerum quos iste, aliquam illo temporibus nam
             hic deserunt est.
           </p>
-          <div className="footer-socials">
-            <li>
-              <a href="#">{/* Add your social media link here */}</a>
-            </li>
-            <li>
-              <a href="#">{/* Add your social media link here */}</a>
-            </li>
-          </div>
         </div>
         <div className="footer-kontaktos" id="footer-sprite">
           <h4>Kontakt os</h4>
@@ -35,25 +27,19 @@ const Footer = () => {
               <span>
                 <FontAwesomeIcon icon={faMapMarker} />
               </span>
-              <p>
-                <a href="#">Hørkær 32, 2730 Herlev</a>
-              </p>
+              <p></p>
             </li>
             <li>
               <span>
                 <FontAwesomeIcon icon={faEnvelope} />
               </span>
-              <p>
-                <a href="#">IbnAmer@hotmail.com</a>
-              </p>
+              <p></p>
             </li>
             <li>
               <span>
                 <FontAwesomeIcon icon={faPhone} />
               </span>
-              <p>
-                <a href="#">+45 00 00 00 00 </a>
-              </p>
+              <p></p>
             </li>
           </ul>
         </div>
